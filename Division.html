@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8th Division | Digital Headquarters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0d0b;
+            --panel-bg: #141a17;
+            --steel: #7b8c85;
+            --gold: #d4af37;
+            --military-green: #2a3d32;
+            --text-main: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            background-image: radial-gradient(circle at center, #141a17 0%, #0a0d0b 100%);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Black Ops One', cursive;
+            letter-spacing: 2px;
+            color: var(--steel);
+            text-transform: uppercase;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background-color: #050706;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--military-green);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--steel);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(rgba(10, 13, 11, 0.8), rgba(10, 13, 11, 0.9)), url('https://images.unsplash.com/photo-1574340240366-078233b8a6fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .logo {
+            max-width: 250px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .slogan {
+            font-size: 1.5rem;
+            color: var(--steel);
+            margin-bottom: 30px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .btn {
+            background-color: var(--military-green);
+            color: var(--text-main);
+            padding: 15px 30px;
+            border: 1px solid var(--steel);
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--gold);
+            color: var(--bg-color);
+            border-color: var(--gold);
+        }
+
+        /* --- SECTIONS --- */
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--military-green);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .center-heading {
+            text-align: center;
+        }
+
+        /* --- COMMAND CARDS --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--military-green);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+
+        .supreme-leader {
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .card h3 {
+            color: var(--gold);
+            margin-top: 15px;
+            font-size: 1.8rem;
+        }
+
+        .card p {
+            color: var(--steel);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* --- RANKS & PROMOTIONS --- */
+        .military-record {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--military-green);
+            padding: 30px;
+        }
+
+        .rank-list {
+            list-style: none;
+            text-align: center;
+        }
+
+        .rank-list li {
+            padding: 10px;
+            border-bottom: 1px solid var(--military-green);
+            font-weight: bold;
+            color: var(--steel);
+        }
+
+        .rank-list li:last-child {
+            border-bottom: none;
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-family: 'Black Ops One', cursive;
+        }
+
+        /* --- JOIN FORM --- */
+        form {
+            background-color: var(--panel-bg);
+            padding: 40px;
+            border: 1px solid var(--military-green);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form input, form textarea, form select {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--steel);
+            color: var(--text-main);
+        }
+
+        form input:focus, form textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #050706;
+            border-top: 2px solid var(--military-green);
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div style="font-family: 'Black Ops One'; color: var(--gold); font-size: 1.2rem;">8TH DIV</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#command">Command</a></li>
+            <li><a href="#operations">Operations</a></li>
+            <li><a href="#join">Join Us</a></li>
+        </ul>
+    </nav>
+
+    <header id="home">
+        <img src="https://cdn.discordapp.com/attachments/1387089146450804961/1479839030643523717/8th_pz_elite_1.png?ex=69b021fe&is=69aed07e&hm=08c67149df4dffd83d5f4d8dc9f6b75796319ffdb4be64aec731fd45c051fca3&" alt="8th Division Logo" class="logo">
+        <h1>8th Division</h1>
+        <div class="slogan">Steel Discipline • Strength • Victory</div>
+        <div>
+            <a href="#join" class="btn">Join Division</a>
+            <a href="#command" class="btn">View Ranks</a>
+            <a href="#operations" class="btn">Operations</a>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="center-heading">
+            <h2 class="section-title">About Us</h2>
+            <p style="max-width: 800px; margin: 0 auto; line-height: 1.6; font-size: 1.1rem;">
+                <strong>8th Division</strong> is a military gaming division focused on armored warfare, teamwork, discipline, and tactical combat in tank games. We are forged for battle, operating with precision and coordination that outmaneuvers our enemies. 
+                <br><br><em>Strength Through Discipline.</em>
+            </p>
+        </div>
+    </section>
+
+    <section id="command">
+        <div class="center-heading">
+            <h2 class="section-title">Command Roster</h2>
+        </div>
+        <div class="grid">
+            <div class="card supreme-leader">
+                <h3>omaficxela</h3>
+                <p>Supreme Leader</p>
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">Commander-in-Chief of all 8th Division operations and personnel.</div>
+            </div>
+            <div class="card">
+                <h3>OfficialGvaska</h3>
+                <p>High Command</p>
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">Oversees strategic combat planning and division moderation.</div>
+            </div>
+            <div class="card">
+                <h3>Ahmedshen123</h3>
+                <p>High Command</p>
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">Manages recruitment, training schedules, and battlefield logistics.</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ranks">
+        <div class="center-heading">
+            <h2 class="section-title">Official Rank Structure</h2>
+        </div>
+        <div class="military-record" style="max-width: 600px; margin: 0 auto;">
+            <ul class="rank-list">
+                <li>Private</li>
+                <li>Private First Class</li>
+                <li>Specialist</li>
+                <li>Corporal</li>
+                <li>Sergeant</li>
+                <li>Major</li>
+                <li>Colonel</li>
+                <li>General</li>
+                <li style="color: var(--gold);">Supreme Commander</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="operations">
+        <div class="center-heading">
+            <h2 class="section-title">Active Headquarters</h2>
+        </div>
+        <div class="grid">
+            <div class="military-record">
+                <h3 style="color: var(--gold); margin-bottom: 10px;">Active Operations</h3>
+                <p><strong>Operation Iron Storm:</strong> Coordinated offensive in Sector 4. Status: ACTIVE.</p>
+            </div>
+            <div class="military-record">
+                <h3 style="color: var(--gold); margin-bottom: 10px;">Recent Promotions</h3>
+                <p>No recent promotions. Next evaluation phase begins Friday.</p>
+            </div>
+        </div>
+    </section>
+
+ <section id="join">
+        <div class="center-heading">
+            <h2 class="section-title">Enlistment Form</h2>
+        </div>
+        <form style="max-width: 700px; margin: 0 auto;" action="https://formspree.io/f/xeereryl" method="POST">
+            
+            <input type="text" name="Username" placeholder="Gaming Username" required>
+            
+            <input type="number" name="Age" placeholder="Age" required>
+            
+            <input type="text" name="Discord" placeholder="Discord Username (e.g., user#1234)" required>
+            
+            <input type="text" name="Experience" placeholder="Tank Game Experience (Hours/Years)" required>
+            
+            <select name="Active_Hours" required>
+                <option value="" disabled selected>Select Active Hours</option>
+                <option value="Morning">Morning</option>
+                <option value="Afternoon">Afternoon</option>
+                <option value="Evening">Evening</option>
+                <option value="Late Night">Late Night</option>
+            </select>
+            
+            <textarea name="Reason_For_Joining" rows="5" placeholder="Why do you want to join the 8th Division?" required></textarea>
+            
+            <button type="submit" class="btn" style="width: 100%; margin: 10px 0 0 0;">Submit Application</button>
+        </form>
+    </section>
+
+    <footer>
+        <p style="color: var(--steel); font-family: 'Black Ops One', cursive;">8TH DIVISION | STRENGTH THROUGH DISCIPLINE</p>
+    </footer>
+
+</body>
+</html>
