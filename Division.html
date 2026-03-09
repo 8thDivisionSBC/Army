@@ -112,17 +112,36 @@
                 flex-direction: column;
                 padding: 15px;
             }
-            .nav-brand {
-                position: relative;
-                left: 0;
-                align-self: flex-start;
-                margin-left: 5px;
-                margin-bottom: 15px; /* Creates space between 8TH DIV and Home on phone */
+            
+            /* This groups them together so they are perfectly leveled */
+            .nav-brand, .nav-sbc {
+                position: absolute;
+                top: 20px;
+                line-height: 1;
+                font-size: 1.3rem;
+                margin: 0;
             }
+
+            .nav-brand {
+                left: 20px;
+            }
+
+            .nav-sbc {
+                right: 20px;
+            }
+
             nav ul {
-                gap: 15px;
+                margin-top: 45px; /* Pushes the links down cleanly below the top text */
+                gap: 12px 20px; /* Better row/column spacing for phones */
                 flex-wrap: wrap;
                 justify-content: center;
+                width: 100%;
+            }
+
+            nav a {
+                font-size: 0.95rem;
+                padding: 5px; /* Makes the links easier to tap with a thumb */
+                letter-spacing: 1px;
             }
         }
 
