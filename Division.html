@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>8th Division | Digital Headquarters</title>
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-     <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/1387089146450804961/1479839030643523717/8th_pz_elite_1.png?ex=69b021fe&is=69aed07e&hm=08c67149df4dffd83d5f4d8dc9f6b75796319ffdb4be64aec731fd45c051fca3&">
+    <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/1387089146450804961/1479839030643523717/8th_pz_elite_1.png?ex=69b021fe&is=69aed07e&hm=08c67149df4dffd83d5f4d8dc9f6b75796319ffdb4be64aec731fd45c051fca3&">
     <style>
         :root {
             --bg-color: #0a0d0b;
@@ -36,23 +36,40 @@
             text-transform: uppercase;
         }
 
-        /* --- NAVIGATION --- */
+       /* --- NAVIGATION --- */
         nav {
             background-color: #050706;
             padding: 15px 30px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center; /* Centers the menu links on PC */
             border-bottom: 2px solid var(--military-green);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
+        .nav-brand {
+            position: absolute;
+            left: 30px;
+            font-family: 'Black Ops One', cursive;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        .nav-sbc {
+            position: absolute;
+            right: 30px;
+            font-family: 'Black Ops One', cursive;
+            color: var(--steel); /* Used steel here, but you can change to var(--gold) */
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
         nav ul {
             list-style: none;
             display: flex;
-            gap: 20px;
+            gap: 25px;
         }
 
         nav a {
@@ -64,6 +81,49 @@
 
         nav a:hover {
             color: var(--gold);
+        }
+
+        /* --- MOBILE RESPONSIVE NAVIGATION --- */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 15px;
+                padding-top: 40px; /* Adds space so the top text doesn't hit the links */
+            }
+            .nav-brand {
+                top: 15px;
+                left: 15px;
+            }
+            .nav-sbc {
+                top: 15px;
+                right: 15px;
+            }
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+
+        /* --- MOBILE RESPONSIVE NAVIGATION --- */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .nav-brand {
+                position: relative;
+                left: 0;
+                align-self: flex-start;
+                margin-left: 5px;
+                margin-bottom: 15px; /* Creates space between 8TH DIV and Home on phone */
+            }
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
         }
 
         /* --- HERO SECTION --- */
@@ -233,7 +293,7 @@
 <body>
 
     <nav>
-        <div style="font-family: 'Black Ops One'; color: var(--gold); font-size: 1.2rem;">8TH DIV</div>
+        <div class="nav-brand">8TH DIV</div>
         <ul>
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -241,6 +301,7 @@
             <li><a href="#operations">Operations</a></li>
             <li><a href="#join">Join Us</a></li>
         </ul>
+        <div class="nav-sbc">SBC</div>
     </nav>
 
     <header id="home">
@@ -322,7 +383,7 @@
         </div>
     </section>
 
- <section id="join">
+    <section id="join">
         <div class="center-heading">
             <h2 class="section-title">Enlistment Form</h2>
         </div>
