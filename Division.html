@@ -3,375 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8th Division | Digital Headquarters</title>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/1387089146450804961/1479839030643523717/8th_pz_elite_1.png?ex=69b021fe&is=69aed07e&hm=08c67149df4dffd83d5f4d8dc9f6b75796319ffdb4be64aec731fd45c051fca3&">
+    <title>8th Division | Classified Dossier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="8th.png">
     <style>
         :root {
-            --bg-color: #0a0d0b;
-            --panel-bg: #141a17;
-            --steel: #7b8c85;
-            --gold: #d4af37;
-            --military-green: #2a3d32;
-            --text-main: #e0e0e0;
+            --ink-main: rgba(20, 15, 10, 0.95); /* Crisp dark typewriter ink */
+            --ink-faded: rgba(30, 20, 15, 0.6);
+            --stamp-red: rgba(180, 40, 40, 0.85);
+            --border-thick: 3px solid var(--ink-main);
+            --border-thin: 1px solid var(--ink-main);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Courier Prime', monospace;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            background-image: radial-gradient(circle at center, #141a17 0%, #0a0d0b 100%);
+            /* Light, faded vintage paper color (highly readable) */
+            background-color: #ece3ce; 
+            background-image: 
+                /* Subtle paper grain */
+                repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px),
+                /* Soft edge burning */
+                radial-gradient(ellipse at center, transparent 50%, rgba(130, 90, 50, 0.15) 100%);
+            color: var(--ink-main);
+            overflow-x: hidden;
+        }
+
+        /* --- ALL CONTENT BLENDS WITH THE DIRT --- */
+        h1, h2, h3, p, a, div, form, ul, li {
+            mix-blend-mode: multiply; 
+        }
+
+        /* --- FULL SCREEN GRIME & LIQUID OVERLAY --- */
+        .grime-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* Allows you to click links through the stains */
+            z-index: 9999;
+        }
+
+        /* --- CENTER FAINT WATERMARK --- */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70vh;
+            height: 70vh;
+            background-image: url('8th.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.04; /* Very faint */
+            z-index: -1;
+            filter: grayscale(100%);
+            mix-blend-mode: multiply;
         }
 
         h1, h2, h3 {
-            font-family: 'Black Ops One', cursive;
-            letter-spacing: 2px;
-            color: var(--steel);
+            font-family: 'Special Elite', cursive;
             text-transform: uppercase;
+        }
+
+        /* --- STAMP EFFECT --- */
+        .top-secret {
+            color: var(--stamp-red);
+            font-family: 'Special Elite', cursive;
+            font-size: 1.5rem;
+            border: 4px solid var(--stamp-red);
+            padding: 5px 15px;
+            display: inline-block;
+            transform: rotate(-5deg);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
         }
 
        /* --- NAVIGATION --- */
         nav {
-            background-color: #050706;
+            background-color: transparent;
             padding: 15px 30px;
             display: flex;
             align-items: center;
-            justify-content: center; /* Centers the menu links on PC */
-            border-bottom: 2px solid var(--military-green);
+            justify-content: center;
+            border-bottom: var(--border-thick);
+            border-top: var(--border-thick);
+            margin-bottom: 20px;
             position: sticky;
             top: 0;
             z-index: 100;
+            background-color: rgba(236, 227, 206, 0.8); /* Slight blur so it's readable when scrolling */
+            backdrop-filter: blur(3px);
         }
 
-        .nav-brand {
+        .nav-brand, .nav-sbc {
             position: absolute;
-            left: 30px;
-            font-family: 'Black Ops One', cursive;
-            color: var(--gold);
+            font-family: 'Special Elite', cursive;
             font-size: 1.2rem;
+            font-weight: bold;
         }
 
-        .nav-sbc {
-            position: absolute;
-            right: 30px;
-            font-family: 'Black Ops One', cursive;
-            color: var(--steel); /* Used steel here, but you can change to var(--gold) */
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-        }
+        .nav-brand { left: 30px; }
+        .nav-sbc { right: 30px; }
 
         nav ul {
             list-style: none;
             display: flex;
-            gap: 25px;
+            gap: 20px;
         }
 
         nav a {
-            color: var(--steel);
+            color: var(--ink-main);
             text-decoration: none;
             font-weight: bold;
-            transition: color 0.3s;
+            font-size: 1.1rem;
         }
+
+        nav a:before { content: "[ "; }
+        nav a:after { content: " ]"; }
 
         nav a:hover {
-            color: var(--gold);
+            color: var(--stamp-red);
         }
 
-        /* --- MOBILE RESPONSIVE NAVIGATION --- */
         @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                padding: 15px;
-                padding-top: 40px; /* Adds space so the top text doesn't hit the links */
-            }
-            .nav-brand {
-                top: 15px;
-                left: 15px;
-            }
-            .nav-sbc {
-                top: 15px;
-                right: 15px;
-            }
-            nav ul {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-                margin-top: 10px;
-            }
-        }
-
-        /* --- MOBILE RESPONSIVE NAVIGATION --- */
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                padding: 15px;
-            }
-            
-            /* This groups them together so they are perfectly leveled */
-            .nav-brand, .nav-sbc {
-                position: absolute;
-                top: 20px;
-                line-height: 1;
-                font-size: 1.3rem;
-                margin: 0;
-            }
-
-            .nav-brand {
-                left: 20px;
-            }
-
-            .nav-sbc {
-                right: 20px;
-            }
-
-            nav ul {
-                margin-top: 45px; /* Pushes the links down cleanly below the top text */
-                gap: 12px 20px; /* Better row/column spacing for phones */
-                flex-wrap: wrap;
-                justify-content: center;
-                width: 100%;
-            }
-
-            nav a {
-                font-size: 0.95rem;
-                padding: 5px; /* Makes the links easier to tap with a thumb */
-                letter-spacing: 1px;
-            }
+            nav { flex-direction: column; padding: 15px; }
+            .nav-brand, .nav-sbc { position: relative; left: 0; right: 0; margin-bottom: 10px; text-align: center; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
         }
 
         /* --- HERO SECTION --- */
         header {
             text-align: center;
-            padding: 100px 20px;
-            background: linear-gradient(rgba(10, 13, 11, 0.8), rgba(10, 13, 11, 0.9)), url('https://images.unsplash.com/photo-1574340240366-078233b8a6fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            border-bottom: 3px solid var(--gold);
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: var(--border-thin);
+            border-style: dashed;
         }
 
         .logo {
-            max-width: 250px;
+            max-width: 180px;
             margin-bottom: 20px;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            filter: sepia(100%) hue-rotate(180deg) saturate(3) contrast(1.2);
+            opacity: 0.85;
         }
 
-        header h1 {
-            font-size: 3.5rem;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
+        header h1 { font-size: 3rem; margin-bottom: 10px; letter-spacing: -1px; }
+        .slogan { font-size: 1.2rem; margin-bottom: 30px; font-weight: bold; }
 
-        .slogan {
-            font-size: 1.5rem;
-            color: var(--steel);
-            margin-bottom: 30px;
-            font-weight: bold;
-            letter-spacing: 3px;
-        }
-
+        /* --- BUTTONS --- */
         .btn {
-            background-color: var(--military-green);
-            color: var(--text-main);
-            padding: 15px 30px;
-            border: 1px solid var(--steel);
+            background-color: transparent;
+            color: var(--ink-main);
+            padding: 10px 20px;
+            border: 2px solid var(--ink-main);
+            font-family: 'Special Elite', cursive;
+            font-size: 1rem;
             text-transform: uppercase;
-            font-weight: bold;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
             margin: 5px;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
         }
 
-        .btn:hover {
-            background-color: var(--gold);
-            color: var(--bg-color);
-            border-color: var(--gold);
-        }
+        .btn:hover { background-color: var(--ink-main); color: #ece3ce; mix-blend-mode: normal; }
 
         /* --- SECTIONS --- */
         section {
-            padding: 60px 20px;
-            max-width: 1200px;
+            padding: 40px 20px;
+            max-width: 1000px;
             margin: 0 auto;
+            position: relative;
+            z-index: 10;
         }
 
         .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--military-green);
+            text-align: left;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--ink-main);
             display: inline-block;
-            padding-bottom: 10px;
+            padding-right: 50px;
         }
 
-        .center-heading {
-            text-align: center;
-        }
+        .typewriter-text { line-height: 1.8; font-size: 1.1rem; text-align: justify; }
 
-        /* --- COMMAND CARDS --- */
+        /* --- DOSSIER CARDS --- */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
+            margin-top: 20px;
         }
 
         .card {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--military-green);
+            background-color: transparent;
+            border: var(--border-thin);
             padding: 20px;
-            text-align: center;
-            transition: transform 0.3s;
+            position: relative;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 40px; height: 15px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .supreme-leader {
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-        }
+        .supreme-leader { border: 3px solid var(--ink-main); }
+        .card h3 { font-size: 1.5rem; border-bottom: 1px dotted var(--ink-main); padding-bottom: 5px; margin-bottom: 10px; }
 
-        .card h3 {
-            color: var(--gold);
-            margin-top: 15px;
-            font-size: 1.8rem;
-        }
+        /* --- DISPATCHES SECTION --- */
+        .newspaper-layout { display: flex; flex-direction: column; gap: 15px; }
+        .dispatch-item { border-left: 4px solid var(--ink-main); padding-left: 15px; margin-bottom: 10px; }
+        .dispatch-date { font-weight: bold; text-decoration: underline; margin-bottom: 5px; }
 
-        .card p {
-            color: var(--steel);
-            font-weight: bold;
-            margin-top: 5px;
-        }
+        /* --- RANKS --- */
+        .rank-list { list-style: none; column-count: 2; column-gap: 40px; }
+        .rank-list li { padding: 8px 0; border-bottom: 1px dotted var(--ink-faded); }
+        .rank-list li:last-child { font-weight: bold; font-family: 'Special Elite', cursive; }
 
-        /* --- RANKS & PROMOTIONS --- */
-        .military-record {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--military-green);
-            padding: 30px;
-        }
-
-        .rank-list {
-            list-style: none;
-            text-align: center;
-        }
-
-        .rank-list li {
-            padding: 10px;
-            border-bottom: 1px solid var(--military-green);
-            font-weight: bold;
-            color: var(--steel);
-        }
-
-        .rank-list li:last-child {
-            border-bottom: none;
-            color: var(--gold);
-            font-size: 1.2rem;
-            font-family: 'Black Ops One', cursive;
-        }
-
-        /* --- JOIN FORM --- */
+        /* --- ENLISTMENT FORM --- */
         form {
-            background-color: var(--panel-bg);
-            padding: 40px;
-            border: 1px solid var(--military-green);
+            background-color: transparent;
+            padding: 30px;
+            border: var(--border-thick);
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
+
+        .form-row { display: flex; flex-direction: column; }
+        .form-row label { font-weight: bold; margin-bottom: 5px; text-transform: uppercase; }
 
         form input, form textarea, form select {
             width: 100%;
             padding: 10px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--steel);
-            color: var(--text-main);
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px dashed var(--ink-main);
+            color: var(--ink-main);
+            font-size: 1.1rem;
         }
 
-        form input:focus, form textarea:focus {
+        form input:focus, form textarea:focus, form select:focus {
             outline: none;
-            border-color: var(--gold);
+            background-color: rgba(0,0,0,0.03);
+            border-bottom: 2px solid var(--ink-main);
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 30px;
-            background-color: #050706;
-            border-top: 2px solid var(--military-green);
-            margin-top: 50px;
+            background-color: transparent;
+            border-top: var(--border-thick);
+            margin-top: 40px;
+            font-family: 'Special Elite', cursive;
+            position: relative;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
+    <svg class="grime-overlay" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="liquidWarp" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="4" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="35" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+            
+            <filter id="dirtScatter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" result="noise"/>
+                <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 8 -4" result="coloredNoise"/>
+                <feComposite in="SourceGraphic" in2="coloredNoise" operator="in"/>
+            </filter>
+        </defs>
+
+        <g filter="url(#liquidWarp)" style="mix-blend-mode: multiply;">
+            <circle cx="85vw" cy="15vh" r="75" fill="none" stroke="#6b4226" stroke-width="4" opacity="0.6" />
+            <circle cx="82vw" cy="18vh" r="70" fill="none" stroke="#8c5a35" stroke-width="2" opacity="0.4" />
+            <circle cx="85vw" cy="15vh" r="73" fill="#a66d3f" opacity="0.12" /> 
+            
+            <circle cx="76vw" cy="22vh" r="12" fill="#6b4226" opacity="0.4" />
+            <circle cx="74vw" cy="11vh" r="6" fill="#6b4226" opacity="0.3" />
+            <circle cx="92vw" cy="28vh" r="8" fill="#8c5a35" opacity="0.25" />
+            
+            <path d="M 85vw 15vh Q 82vw 35vh 84vw 50vh" stroke="#6b4226" stroke-width="4" fill="none" opacity="0.25" stroke-linecap="round"/>
+        </g>
+
+        <g filter="url(#liquidWarp)" style="mix-blend-mode: multiply;">
+            <ellipse cx="15vw" cy="85vh" rx="200" ry="120" fill="#9c7a52" opacity="0.12" />
+            <ellipse cx="65vw" cy="90vh" rx="250" ry="90" fill="#8c6b4a" opacity="0.08" />
+            <circle cx="5vw" cy="35vh" r="140" fill="#7a5c3a" opacity="0.08" />
+            <path d="M 10vw 10vh Q 30vw 15vh 40vw 5vh" stroke="#8c6b4a" stroke-width="25" fill="none" opacity="0.1" />
+        </g>
+
+        <rect width="100%" height="100%" fill="#5c4028" filter="url(#dirtScatter)" opacity="0.15" style="mix-blend-mode: multiply;" />
+    </svg>
+
+    <div class="watermark"></div>
+
     <nav>
-        <div class="nav-brand">8TH DIV</div>
+        <div class="nav-brand">WAR DEPT.</div>
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#command">Command</a></li>
-            <li><a href="#operations">Operations</a></li>
-            <li><a href="#join">Join Us</a></li>
+            <li><a href="#home">FRONT</a></li>
+            <li><a href="#about">BRIEFING</a></li>
+            <li><a href="#news">DISPATCHES</a></li>
+            <li><a href="#command">OFFICERS</a></li>
+            <li><a href="#join">ENLIST</a></li>
         </ul>
-        <div class="nav-sbc">SBC</div>
+        <div class="nav-sbc">S.B.C.</div>
     </nav>
 
     <header id="home">
-        <img src="https://cdn.discordapp.com/attachments/1387089146450804961/1479839030643523717/8th_pz_elite_1.png?ex=69b021fe&is=69aed07e&hm=08c67149df4dffd83d5f4d8dc9f6b75796319ffdb4be64aec731fd45c051fca3&" alt="8th Division Logo" class="logo">
-        <h1>8th Division</h1>
-        <div class="slogan">Steel Discipline • Strength • Victory</div>
+        <div class="top-secret">CONFIDENTIAL</div><br>
+        <img src="8th.png" alt="8th Division Insignia" class="logo">
+        <h1>8th Division HQ</h1>
+        <div class="slogan">STEEL DISCIPLINE // STRENGTH // VICTORY</div>
         <div>
-            <a href="#join" class="btn">Join Division</a>
-            <a href="#command" class="btn">View Ranks</a>
-            <a href="#operations" class="btn">Operations</a>
+            <a href="#join" class="btn">Sign Papers</a>
+            <a href="#command" class="btn">View Roster</a>
         </div>
     </header>
 
     <section id="about">
-        <div class="center-heading">
-            <h2 class="section-title">About Us</h2>
-            <p style="max-width: 800px; margin: 0 auto; line-height: 1.6; font-size: 1.1rem;">
-                <strong>8th Division</strong> is a military gaming division focused on armored warfare, teamwork, discipline, and tactical combat in tank games. We are forged for battle, operating with precision and coordination that outmaneuvers our enemies. 
-                <br><br><em>Strength Through Discipline.</em>
-            </p>
+        <h2 class="section-title">SUBJECT: DIVISION BRIEFING</h2>
+        <p class="typewriter-text">
+            <strong>8th Division</strong> is a military gaming detachment focused on armored warfare, tactical unit cohesion, and battlefield discipline. We are forged for the frontlines, operating with absolute precision to outmaneuver opposition forces in armored combat simulations.<br><br>
+            <em>Motto: Strength Through Discipline.</em>
+        </p>
+    </section>
+
+    <section id="news">
+        <h2 class="section-title">WAR DEPT. DISPATCHES</h2>
+        <div class="newspaper-layout">
+            <div class="dispatch-item">
+                <div class="dispatch-date">0900 HOURS - RECENT DEVELOPMENTS</div>
+                <p class="typewriter-text">Command reports successful test runs of new heavy armor prototypes in Sector 7. All tank crews are advised to review the updated ballistic charts before evening deployment.</p>
+            </div>
+            <div class="dispatch-item">
+                <div class="dispatch-date">1400 HOURS - RECRUITMENT DRIVE</div>
+                <p class="typewriter-text">The 8th Division is actively seeking capable operators for the upcoming 'Steel Battleground' campaign. Experience in mechanized warfare is highly preferred. Report to the enlistment office below.</p>
+            </div>
         </div>
     </section>
 
     <section id="command">
-        <div class="center-heading">
-            <h2 class="section-title">Command Roster</h2>
-        </div>
+        <h2 class="section-title">OFFICER DOSSIERS</h2>
         <div class="grid">
             <div class="card supreme-leader">
-                <h3>omaficxela</h3>
-                <p>Supreme Leader</p>
-                <div style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">Commander-in-Chief of all 8th Division operations and personnel.</div>
+                <h3>OMAFICXELA</h3>
+                <p><strong>RANK:</strong> Supreme Leader</p>
+                <p class="typewriter-text"><br>Commander-in-Chief. Directs all 8th Division operations, theater movements, and personnel assignments.</p>
             </div>
             <div class="card">
-                <h3>OfficialGvaska</h3>
-                <p>High Command</p>
-                <div style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">Oversees strategic combat planning and division moderation.</div>
+                <h3>OFFICIALGVASKA</h3>
+                <p><strong>RANK:</strong> High Command</p>
+                <p class="typewriter-text"><br>Oversees strategic combat planning, division logistics, and internal communications moderation.</p>
             </div>
             <div class="card">
-                <h3>Ahmedshen123</h3>
-                <p>High Command</p>
-                <div style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">Manages recruitment, training schedules, and battlefield logistics.</div>
+                <h3>AHMEDSHEN123</h3>
+                <p><strong>RANK:</strong> High Command</p>
+                <p class="typewriter-text"><br>Manages recruitment pipelines, physical/tactical training schedules, and battlefield resupply logistics.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="operations">
+        <h2 class="section-title">ACTIVE THEATER</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>OP: IRON STORM</h3>
+                <p class="typewriter-text"><strong>STATUS:</strong> ACTIVE<br>Coordinated heavy armor offensive in Sector 4. All personnel remain on standby for immediate deployment.</p>
+            </div>
+            <div class="card">
+                <h3>PROMOTIONS</h3>
+                <p class="typewriter-text"><strong>STATUS:</strong> PENDING<br>No recent battlefield commissions. Next evaluation phase commences at 0800 hours Friday.</p>
             </div>
         </div>
     </section>
 
     <section id="ranks">
-        <div class="center-heading">
-            <h2 class="section-title">Official Rank Structure</h2>
-        </div>
-        <div class="military-record" style="max-width: 600px; margin: 0 auto;">
+        <h2 class="section-title">CHAIN OF COMMAND</h2>
+        <div style="border: var(--border-thin); padding: 20px;">
             <ul class="rank-list">
                 <li>Private</li>
                 <li>Private First Class</li>
@@ -381,59 +409,59 @@
                 <li>Major</li>
                 <li>Colonel</li>
                 <li>General</li>
-                <li style="color: var(--gold);">Supreme Commander</li>
+                <li>Supreme Commander</li>
             </ul>
         </div>
     </section>
 
-    <section id="operations">
-        <div class="center-heading">
-            <h2 class="section-title">Active Headquarters</h2>
-        </div>
-        <div class="grid">
-            <div class="military-record">
-                <h3 style="color: var(--gold); margin-bottom: 10px;">Active Operations</h3>
-                <p><strong>Operation Iron Storm:</strong> Coordinated offensive in Sector 4. Status: ACTIVE.</p>
-            </div>
-            <div class="military-record">
-                <h3 style="color: var(--gold); margin-bottom: 10px;">Recent Promotions</h3>
-                <p>No recent promotions. Next evaluation phase begins Friday.</p>
-            </div>
-        </div>
-    </section>
-
     <section id="join">
-        <div class="center-heading">
-            <h2 class="section-title">Enlistment Form</h2>
-        </div>
-        <form style="max-width: 700px; margin: 0 auto;" action="https://formspree.io/f/xeereryl" method="POST">
+        <h2 class="section-title">ENLISTMENT PAPERS</h2>
+        <form action="https://formspree.io/f/xeereryl" method="POST">
             
-            <input type="email" name="Gmail" placeholder="Gmail Address" required>
+            <div class="top-secret" style="font-size: 1rem; margin-bottom: 0; width: max-content;">FORM 8-B</div>
 
-            <input type="text" name="Username" placeholder="Roblox Username" required>
+            <div class="form-row">
+                <label>Roblox Operator ID</label>
+                <input type="text" name="Username" placeholder="Enter Username..." required>
+            </div>
             
-            <input type="number" name="Age" placeholder="Age" required>
+            <div class="form-row">
+                <label>Age</label>
+                <input type="number" name="Age" placeholder="State your age..." required>
+            </div>
             
-            <input type="text" name="Discord" placeholder="Discord Username (e.g., user#1234)" required>
+            <div class="form-row">
+                <label>Telegraph/Discord Contact</label>
+                <input type="text" name="Discord" placeholder="e.g., user#1234" required>
+            </div>
             
-            <input type="text" name="Experience" placeholder="Tank Game Experience (Hours/Years)" required>
+            <div class="form-row">
+                <label>Combat Experience</label>
+                <input type="text" name="Experience" placeholder="Tank Game Hours/Years..." required>
+            </div>
             
-            <select name="Active_Hours" required>
-                <option value="" disabled selected>Select Active Hours</option>
-                <option value="Morning">Morning</option>
-                <option value="Afternoon">Afternoon</option>
-                <option value="Evening">Evening</option>
-                <option value="Late Night">Late Night</option>
-            </select>
+            <div class="form-row">
+                <label>Available Duty Hours</label>
+                <select name="Active_Hours" required>
+                    <option value="" disabled selected>-- Select Shift --</option>
+                    <option value="Morning">Morning Patrol</option>
+                    <option value="Afternoon">Mid-Day Deployment</option>
+                    <option value="Evening">Evening Operations</option>
+                    <option value="Late Night">Night Watch</option>
+                </select>
+            </div>
             
-            <textarea name="Reason_For_Joining" rows="5" placeholder="Why do you want to join the 8th Division?" required></textarea>
+            <div class="form-row">
+                <label>Statement of Intent</label>
+                <textarea name="Reason_For_Joining" rows="4" placeholder="Why are you enlisting in the 8th Division?" required></textarea>
+            </div>
             
-            <button type="submit" class="btn" style="width: 100%; margin: 10px 0 0 0;">Submit Application</button>
+            <button type="submit" class="btn" style="width: 100%; margin-top: 15px; font-size: 1.2rem; border-width: 3px;">STAMP & SUBMIT APPLICATION</button>
         </form>
     </section>
 
     <footer>
-        <p style="color: var(--steel); font-family: 'Black Ops One', cursive;">8TH DIVISION | STRENGTH THROUGH DISCIPLINE</p>
+        <p>PROPERTY OF 8TH DIVISION COMMAND | END OF TRANSMISSION</p>
     </footer>
 
 </body>
