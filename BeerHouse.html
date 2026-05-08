@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Beer House • ლუდის სახლი ფოთში</title>
+  <!-- Premium fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ---------------------------------------------
+       RESET & BASE – DARK PREMIUM THEME (BLACK/GOLD)
+       --------------------------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #0b0a0a;
+      --deep-black: #050404;
+      --gold: #d4af37;
+      --gold-light: #f5e7b2;
+      --orange-accent: #c97e2e;
+      --warm-orange: #b85f1c;
+      --text-light: #f0ede6;
+      --text-muted: #b9b3a6;
+      --card-bg: rgba(20, 18, 18, 0.85);
+      --glass-border: rgba(212, 175, 55, 0.25);
+      --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --shadow-gold: 0 10px 30px -10px rgba(212, 175, 55, 0.2);
+    }
+
+    body {
+      background-color: var(--black);
+      color: var(--text-light);
+      font-family: 'Noto Sans Georgian', 'Montserrat', sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* faster loader */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: var(--deep-black);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    .loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader__inner {
+      width: 50px;
+      height: 50px;
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s infinite linear;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* sticky navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(8, 7, 7, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      transition: var(--transition);
+      padding: 12px 0;
+    }
+    .navbar.scrolled {
+      background: rgba(5, 4, 4, 0.95);
+      padding: 8px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-block;
+    }
+    .logo:hover {
+      color: var(--gold-light);
+      transform: scale(1.02);
+      text-shadow: 0 0 15px rgba(212,175,55,0.5);
+    }
+    .logo span {
+      color: var(--text-light);
+      font-weight: 300;
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+    .logo:hover span {
+      color: var(--gold);
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 500;
+      font-size: 1rem;
+      transition: var(--transition);
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: var(--transition);
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* mobile menu button */
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 1.8rem;
+      padding: 0 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .menu-toggle:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* buttons */
+    .btn {
+      display: inline-block;
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      padding: 12px 28px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border-radius: 40px;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--black);
+      border: 1.5px solid var(--gold);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    .btn-gold:hover {
+      background: transparent;
+      color: var(--gold);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    }
+    .btn-outline:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* hero section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: url('https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') center/cover no-repeat;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, #0a0704 95%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 20px;
+      animation: fadeUp 0.9s ease;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      font-weight: 700;
+      color: var(--gold);
+      text-shadow: 0 4px 20px #000;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .hero .subtitle {
+      font-size: 1.7rem;
+      margin-bottom: 24px;
+      color: var(--text-light);
+      font-weight: 300;
+      text-shadow: 0 2px 8px black;
+      line-height: 1.4;
+    }
+    .hero .premium-tagline {
+      font-size: 1.2rem;
+      margin-bottom: 32px;
+      color: var(--gold-light);
+      font-weight: 400;
+      letter-spacing: 2px;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+    }
+
+    /* scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      opacity: 0.8;
+      animation: bounce 2s infinite;
+    }
+    .scroll-indicator span {
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+    }
+    .scroll-indicator .line {
+      width: 26px;
+      height: 46px;
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      position: relative;
+    }
+    .scroll-indicator .line::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 4px;
+      animation: wheel 1.5s infinite;
+    }
+
+    /* sections general */
+    section {
+      padding: 100px 0;
+      position: relative;
+    }
+    .section-title {
+      font-size: 3rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 60px;
+      letter-spacing: 2px;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 3px;
+      background: var(--orange-accent);
+      margin: 16px auto 0;
+    }
+
+    /* fade-in animations (faster) */
+    .fade-target {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-target.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* menu cards */
+    .menu-categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 24px;
+      margin-bottom: 50px;
+    }
+    .cat-btn {
+      background: transparent;
+      border: 1px solid var(--gold-light);
+      color: var(--gold-light);
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .cat-btn.active, .cat-btn:hover {
+      background: var(--gold);
+      color: black;
+      border-color: var(--gold);
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .menu-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 20px 20px 28px;
+      transition: var(--transition);
+      box-shadow: 0 15px 30px -10px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .menu-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: var(--shadow-gold);
+    }
+    .menu-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--glass-border);
+      transition: var(--transition);
+    }
+    .menu-card:hover .menu-img {
+      border-color: var(--gold);
+    }
+    .popular-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--orange-accent);
+      color: black;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 30px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .menu-name {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .menu-desc {
+      color: var(--text-muted);
+      margin: 12px 0 16px;
+      font-size: 0.95rem;
+    }
+    .menu-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-light);
+      margin-top: auto;
+    }
+
+    /* ---------- EXPANDABLE DRAFT BEER STYLES ---------- */
+    .expandable-draft {
+      cursor: pointer;
+      user-select: none;
+    }
+    .draft-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .draft-arrow {
+      font-size: 1.2rem;
+      color: var(--gold);
+      transition: transform 0.3s ease;
+      margin-left: 10px;
+    }
+    .expandable-draft.open .draft-arrow {
+      transform: rotate(180deg);
+    }
+    .draft-subcontent {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      margin-top: 12px;
+      border-top: 1px solid transparent;
+    }
+    .expandable-draft.open .draft-subcontent {
+      border-top: 1px solid var(--glass-border);
+    }
+    .draft-list {
+      list-style: none;
+      padding: 12px 0 0;
+      margin: 0;
+    }
+    .draft-item {
+      padding: 8px 16px;
+      border-radius: 10px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      color: var(--text-light);
+      transition: background 0.2s, color 0.2s;
+    }
+    .draft-item:hover {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+    }
+    .draft-brand {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .draft-size {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+    .draft-price {
+      margin-left: auto;
+      font-weight: 600;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    /* about */
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 1.2rem;
+      background: rgba(20,18,18,0.6);
+      padding: 40px;
+      border-radius: 40px;
+      backdrop-filter: blur(5px);
+      border: 1px solid var(--glass-border);
+    }
+
+    /* reviews */
+    .reviews-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+    .review-card {
+      background: var(--card-bg);
+      padding: 30px 28px;
+      border-radius: 30px;
+      flex: 1 1 280px;
+      max-width: 350px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+    }
+    .stars {
+      color: var(--gold);
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+    .review-text {
+      font-style: italic;
+      margin: 20px 0;
+    }
+    .reviewer {
+      font-weight: 600;
+      color: var(--gold-light);
+    }
+    .rating-overall {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    /* location – map removed */
+    .location-wrapper {
+      display: flex;
+      justify-content: center;
+      background: var(--card-bg);
+      border-radius: 30px;
+      padding: 40px 30px;
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      text-align: center;
+    }
+    .location-info {
+      max-width: 500px;
+      width: 100%;
+    }
+    .open-status {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .open { color: #2ecc71; }
+    .closed { color: #e67e22; }
+    .address {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    /* contact buttons */
+    .contact-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    /* footer */
+    .footer {
+      text-align: center;
+      padding: 30px 0;
+      border-top: 1px solid var(--glass-border);
+      color: var(--text-muted);
+    }
+
+    /* keyframes */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes bounce { 0%,100%{ transform:translateX(-50%) translateY(0); } 50%{ transform:translateX(-50%) translateY(-10px); } }
+    @keyframes wheel { 0%{ opacity:1; top:6px; } 80%{ opacity:0.3; top:26px; } 100%{ opacity:0; top:30px; } }
+
+    /* responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(8,7,7,0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 30px 0;
+        transform: translateY(-200%);
+        transition: transform 0.3s ease;
+        border-bottom: 1px solid var(--gold);
+        z-index: 999;
+      }
+      .nav-links.show {
+        transform: translateY(0);
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .section-title { font-size: 2.4rem; }
+    }
+    @media (max-width: 480px) {
+      .hero-buttons .btn { width: 100%; }
+      .container { padding: 0 16px; }
+    }
+
+    .glow-text {
+      text-shadow: 0 0 12px rgba(212,175,55,0.5);
+    }
+  </style>
+</head>
+<body>
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader__inner"></div>
+  </div>
+
+  <!-- STICKY NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="logo" id="logoLink">BEER <span>HOUSE</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="მენიუ">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero">მთავარი</a></li>
+        <li><a href="#menu">მენიუ</a></li>
+        <li><a href="#about">ჩვენს შესახებ</a></li>
+        <li><a href="#reviews">შეფასებები</a></li>
+        <li><a href="#location">ლოკაცია</a></li>
+        <li><a href="#contact">კონტაქტი</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="hero" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="glow-text">Beer House ფოთი</h1>
+      <div class="subtitle">დახვეწილი გემოვნების სივრცე</div>
+      <div class="premium-tagline">ხელოსნური ლუდი • გურმანი სამზარეულო • თბილი ატმოსფერო</div>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn btn-gold">მენიუ</a>
+        <a href="tel:+995577451513" class="btn btn-outline">დარეკეთ</a>
+        <a href="#location" class="btn btn-outline">ლოკაცია</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>აღმოაჩინე</span>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <!-- MENU SECTION -->
+  <section id="menu" class="fade-target">
+    <div class="container">
+      <h2 class="section-title">ჩვენი მენიუ</h2>
+      <div class="menu-categories">
+        <button class="cat-btn active" data-cat="all">ყველა</button>
+        <button class="cat-btn" data-cat="dough">ცომეულობა</button>
+        <button class="cat-btn" data-cat="fish">თევზეული</button>
+        <button class="cat-btn" data-cat="Barbecue">მწვადი</button>
+        <button class="cat-btn" data-cat="Salads">სალათი/კერძები/საუზმეული</button>
+        <button class="cat-btn" data-cat="beer">ლუდი</button>
+        <button class="cat-btn" data-cat="drinks">სასმელები</button>
+        <button class="cat-btn" data-cat="desserts">დესერტი</button>
+      </div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="fade-target">
+    <div class="container">
+      <h2 class="section-title">ჩვენს შესახებ</h2>
+      <div class="about-content">
+        <p style="margin-bottom: 20px;">🍻 Beer House ფოთის გულში — ადგილი, სადაც ევროპული პაბის ელეგანტურობა და ქართული სტუმართმოყვარეობა ერთმანეთს ერწყმის.</p>
+        <p>თბილი, მყუდრო ატმოსფერო, ხელოსნური ლუდი და ტრადიციული კერძები. იდეალურია მეგობრებთან შეხვედრისთვის ან გემოვნებიანი სადილისთვის. 2018 წლიდან ვქმნით განსაკუთრებულ გამოცდილებას.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS SECTION -->
+  <section id="reviews" class="fade-target">
+    <div class="container">
+      <h2 class="section-title">სტუმრების შეფასება</h2>
+      <div class="rating-overall">
+        <span class="stars">★★★★½</span>
+        <span style="font-size: 1.8rem; font-weight: 700;">4.5</span>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">„საოცარი ადგილი! ხინკალი უგემრიელესია, ლუდის არჩევანიც მდიდარი. აუცილებლად დავბრუნდები.“</p>
+          <div class="reviewer">— ნინო მ.</div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★☆</div>
+          <p class="review-text">„ძალიან თბილი გარემო, თანამშრომლები მეგობრულები. აჭარული ხაჭაპური საუკეთესოა ფოთში.“</p>
+          <div class="reviewer">— გიორგი კ.</div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">„პრემიუმ ატმოსფერო, იდეალურია საღამოსთვის. კოქტეილები და ლუდი — მაღალი დონე.“</p>
+          <div class="reviewer">— თამარი ბ.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION SECTION -->
+  <section id="location" class="fade-target">
+    <div class="container">
+      <h2 class="section-title">ლოკაცია</h2>
+      <div class="location-wrapper">
+        <div class="location-info">
+          <div class="open-status" id="openStatus">იტვირთება...</div>
+          <div class="address">📍 აღმაშენებლის 37/1, ფოთი</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="fade-target">
+    <div class="container">
+      <h2 class="section-title">დაგვიკავშირდით</h2>
+      <div class="contact-flex">
+        <a href="tel:+995577451513" class="btn btn-gold">📞 +995 577 45 15 13</a>
+        <a href="https://www.facebook.com/BHPoti/" target="_blank" class="btn btn-outline">📘 Facebook</a>
+      </div>
+      <p style="text-align: center; margin-top: 30px; color: var(--text-muted);">დაჯავშნა და შეკითხვები — დაგვირეკეთ ან მოგვწერეთ Facebook-ზე</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 Beer House Poti • ყველა უფლება დაცულია</p>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // ----- FASTER LOADER -----
+      const loader = document.getElementById('loader');
+      window.addEventListener('load', () => {
+        loader.classList.add('hidden');
+        setTimeout(() => loader.style.display = 'none', 300);
+      });
+
+      // ----- STICKY NAV & SCROLL EFFECTS -----
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+      });
+
+      // ----- LOGO CLICK SCROLL TO HERO -----
+      const logoLink = document.getElementById('logoLink');
+      logoLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+        navLinks.classList.remove('show');
+      });
+
+      // ----- MOBILE MENU TOGGLE -----
+      const toggleBtn = document.getElementById('menuToggle');
+      const navLinks = document.getElementById('navLinks');
+      toggleBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          navLinks.classList.remove('show');
+          const targetId = link.getAttribute('href');
+          if (targetId.startsWith('#')) {
+            e.preventDefault();
+            const targetEl = document.querySelector(targetId);
+            if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      document.querySelectorAll('.btn[href^="#"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const href = btn.getAttribute('href');
+          if (href === "#" || href === "#location") {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      // ----- FADE-IN ON SCROLL -----
+      const fadeElements = document.querySelectorAll('.fade-target');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
+      fadeElements.forEach(el => observer.observe(el));
+
+      // ----- OPEN/CLOSED STATUS -----
+      function updateOpenStatus() {
+        const statusEl = document.getElementById('openStatus');
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const time = hour + minute / 60;
+        const isOpen = (time >= 10.0 && time < 23.0);
+        statusEl.innerHTML = isOpen
+          ? '<span class="open">🟢 ახლა ღიაა</span> · ყოველდღე 10:00 - 23:00'
+          : '<span class="closed">🟠 ახლა დახურულია</span> · ყოველდღე 10:00 - 23:00';
+      }
+      updateOpenStatus();
+      setInterval(updateOpenStatus, 60000);
+
+      // ----- MENU DATA (with updated subItems & prices) -----
+      const menuItems = [
+        { id: 'fish', cat: 'fish', name: 'თევზეულობა', desc: 'თევზეულობის სექცია', price: '', popular: false, img: 'თევზი.png',
+        subItems: [
+            { name: 'ქაფშია შებრაწული', size: '', price: '15.00 ₾' },
+            { name: 'ბარაბულკა', size: '', price: '25.00 ₾' },
+            { name: 'სტავრიდა', size: '', price: '18.00 ₾' },
+            { name: 'სარღანი', size: '', price: '26.00 ₾' },
+            { name: 'კეფალი', size: '', price: '17.00 ₾' },
+            { name: 'კალმახი', size: '', price: '20.00 ₾' },
+            { name: 'დორადო', size: '', price: '40.00 ₾' },
+            { name: 'სიბასი', size: '', price: '40.00 ₾' },
+            { name: 'კამბალა', size: '', price: '60.00  ₾' },
+            { name: 'ზუთხის მწვადი მაყალზე', size: '', price: '60.00  ₾' },
+            { name: 'ორაგული შემწვარი', size: '', price: '25.00  ₾' },
+            { name: 'ლოქოს მწვადი', size: '', price: '45.00  ₾' },
+            { name: 'ლოქო ქინძმარში', size: '', price: '40.00  ₾' },
+            { name: 'თევზის დაფა', size: '', price: '150.00  ₾' },
+            { name: 'კალმარი', size: '', price: '15.00  ₾' },
+            { name: 'კრევეტები', size: '', price: '25.00  ₾' },
+          ]
+        },
+        { id: 'khinkali-meat', cat: 'dough', name: 'ცომეულობა', desc: 'ცომეულობის სექცია', price: '', popular: true, img: 'ცომეულობა.png',
+        subItems: [
+            { name: 'ხაჭაპური მეგრული', size: '', price: '22.00 ₾' },
+            { name: 'ხაჭაპური იმერული', size: '', price: '20.00 ₾' },
+            { name: 'ხაჭაპური სამეფო', size: '', price: '28.00 ₾' },
+            { name: 'ხაჭაპური შამფურზე', size: '', price: '15.00 ₾' },
+            { name: 'აჭარული ხაჭაპური', size: '', price: '16.00 ₾' },
+            { name: 'აჭაპური ლობიანი', size: '', price: '14.00 ₾' },
+            { name: 'ლობიანი', size: '', price: '14.00 ₾' },
+            { name: 'პიცა პეპერონი', size: '', price: '20.00 ₾' },
+            { name: 'პიცა მარგარიტა', size: '', price: '18.00  ₾' },
+            { name: 'პიცა პროშუტო ფუნგი', size: '', price: '22.00  ₾' },
+            { name: 'მჭადი', size: '', price: '3.00  ₾' },
+            { name: 'ჭვიშტარი', size: '', price: '8.00  ₾' },
+            { name: 'ღომი', size: '', price: '4.00  ₾' },
+            { name: 'ელარჯი', size: '', price: '18.00  ₾' },
+            { name: 'საფირმო ღომის დაფა', size: '', price: '99.00  ₾' },
+            { name: 'ვარენიკი', size: '', price: '2.00  ₾' },
+            { name: 'შავი პური', size: '', price: '3.00  ₾' },
+            { name: 'შოთის პური', size: '', price: '2.50  ₾' },
+          ]
+        },
+        
+        { id: 'khinkali', cat: 'dough', name: 'ხინკალი/ვარენიკი', desc: 'ხინკალი/ვარენიკი სექცია', price: '', popular: true, img: 'ხინკალი.png',
+        subItems: [
+            { name: 'ხინკალი ქალაქური', size: '10ც', price: '18.00 ₾' },
+            { name: 'პილმენი ქოთანში', size: '', price: '18.00 ₾' },
+            { name: 'მოხარშული პილმენი არაჟანთან', size: '', price: '15.00 ₾' },
+          ]
+        },
+        
+        { id: 'craft-beer', cat: 'beer', name: 'ლუდი', desc: ' ლუდები ', price: 'ლუდების სია', popular: true, img: 'https://images.pexels.com/photos/1089930/pexels-photo-1089930.jpeg?auto=compress&cs=tinysrgb&w=400',
+        subItems: [
+            { name: 'ნატახტარი', size: '0.5ლ', price: '8.00 ₾' },
+            { name: 'ეფესი', size: '0.5', price: '12.00 ₾' },
+            { name: 'ბერნარდი', size: '0.5', price: '15.00 ₾' },
+            { name: 'ჰეინეკენი', size: '0.33ლ', price: '10.00 ₾' },
+            { name: 'კორონა', size: '0.33ლ', price: '10.00  ₾' },
+            { name: 'ლოვენბრაუ', size: '0.5ლ', price: '12.00 ₾' },
+            { name: 'სტელა არტუა', size: '0.33ლ', price: '10.00 ₾' },
+            { name: 'ლეფ ბლონდი', size: '0.33ლ', price: '10.00 ₾' },
+            { name: 'კრომბახერი', size: '0.5ლ', price: '15.00 ₾' },
+            { name: 'ჰაულაინერი გაუფილტრავი', size: '0.5ლ', price: '15.00 ₾' },
+            { name: 'ბუდვაიზერი', size: '0.5ლ', price: '15.00 ₾' }
+          ]
+        },
+        
+        { id: 'draft-beer', cat: 'beer', name: 'ჩამოსასხმელი ლუდი', desc: 'აირჩიე შენი საყვარელი ბრენდი', price: '', popular: false, img: 'https://images.pexels.com/photos/159291/beer-machine-alcohol-brewery-159291.jpeg?auto=compress&cs=tinysrgb&w=400',
+          subItems: [
+            { name: 'საფირმო ლუდი', size: '0.4ლ', price: '6.00 ₾' },
+            { name: 'სტაროპრამენი', size: '0.3-0.5ლ', price: '5.00-10.00 ₾' },
+            { name: 'ლოვენბრაუ', size: '0.5ლ', price: '10.00 ₾' },
+            { name: 'სტელა არტუა', size: '0.4ლ', price: '12.00 ₾' },
+            { name: 'ჰოეგარდენი', size: '0.5ლ', price: '12.00 ₾' }
+          ]
+        },
+        { id: 'lemonade', cat: 'drinks', name: 'გამაგრილებელი სასმელები', desc: 'ლიმონათი,ბორჯომი...', price: 'იხილით ქვემოთ', popular: false, img: 'https://images.pexels.com/photos/2109099/pexels-photo-2109099.jpeg?auto=compress&cs=tinysrgb&w=400',
+          subItems: [
+            { name: 'ლიმონათი ნატახტარი', size: '', price: '4.00 ₾' },
+            { name: 'ბორჯომი', size: '', price: '4.00 ₾' },
+            { name: 'წყალი ბაკურიანი', size: '', price: '3.00 ₾' },
+            { name: 'წყალი ბაკურიანი შუშა', size: '', price: '5.00 ₾' },
+            { name: 'კოკაკოლა', size: '', price: '4.00 ₾' },
+            { name: 'სპრაიტი', size: '', price: '4.00 ₾' },
+            { name: 'ნატურალური წვენი', size: '', price: '16.00 ₾' },
+            { name: 'რედბული', size: '', price: '10.00 ₾' },
+            { name: 'ნატურალური წვენი', size: '0.2ლ', price: '4.00 ₾' },
+            { name: 'კომპოტი', size: '1.0ლ', price: '18.00 ₾' },
+          ]
+        },
+        { id: 'georgian-wine', cat: 'drinks', name: 'თეთრი ღვინო', desc: 'თეთრი ღვინოს სექცია', price: 'იხილეთ ქვემოთ', popular: true, img: 'https://images.pexels.com/photos/2912108/pexels-photo-2912108.jpeg?auto=compress&cs=tinysrgb&w=400',
+          subItems: [
+            { name: 'თელური ევროპული თ/ვ მშ', size: '', price: '16.00 ₾' },
+            { name: 'წინანდალი თ.ვ მშ', size: '', price: '25.00 ₾' },
+            { name: 'ცოლიკაური თვ მშ', size: '', price: '35.00 ₾' },
+            { name: 'მანავის მწვანე თ.ვ', size: '', price: '20.00 ₾' },
+            { name: 'ტვიში თ.ვ ნახ.ტკბილი', size: '', price: '40.00 ₾' },
+            { name: 'ულევარა რქაწითელი', size: '', price: '40.00 ₾' }
+          ]
+        },
+        { id: 'georgian-wine', cat: 'drinks', name: 'წითელი ღვინო', desc: 'წითელი ღვინოს სექცია', price: 'იხილეთ ქვემოთ', popular: true, img: 'https://images.pexels.com/photos/2912108/pexels-photo-2912108.jpeg?auto=compress&cs=tinysrgb&w=400',
+          subItems: [
+            { name: 'საფერავი თ.ვ მშ', size: '', price: '35.00 ₾' },
+            { name: 'საფერავი როზე  თ.ვ ნახ.მშ', size: '', price: '30.00 ₾' },
+            { name: 'მუკუზანი თვ მშ', size: '', price: '45.00 ₾' },
+            { name: 'ქინძმარაული თ.ვ ნ.ტ', size: '', price: '35.00 ₾' },
+            { name: 'ხვანჭკარა თ.ვ ნ.ტ', size: '', price: '85.00 ₾' },
+            { name: 'ულევარა საფერავი', size: '', price: '50.00 ₾' },
+            { name: 'ცქრიალა ღვინო თელიანი ველი', size: '', price: '30.00 ₾' }
+          ]
+        },
+        { id: 'tea-coffe', cat: 'drinks', name: 'ჩაი,ყავა', desc: 'ჩაი/ყავის სექცია', price: 'იხილეთ ქვემოთ', popular: true, img: 'ჩაი.png',
+          subItems: [
+            { name: 'ესპრესო', size: '', price: '4.00 ₾' },
+            { name: 'ამერიკანო', size: '', price: '5.00 ₾' },
+            { name: 'კაპუჩინო', size: '', price: '6.00 ₾' },
+            { name: 'ნალექიანი ყავა', size: '', price: '4.00 ₾' },
+            { name: 'მილკშეიკი', size: '', price: '15.00 ₾' },
+            { name: 'ცივი ყავა', size: '', price: '10.00 ₾' },
+            { name: 'ცივი ყავა ნაყინით', size: '', price: '12.00 ₾' },
+            { name: 'ჩაი', size: '', price: '3.00 ₾' },
+            { name: 'ლატე', size: '', price: '7.00 ₾' },
+            { name: 'ცხელი შოკოლადი', size: '', price: '6.00 ₾' },
+            { name: 'ცხელი შოკოლადი რძით', size: '', price: '8.00 ₾' }
+          ]
+        },
+        { id: 'barbecue', cat: 'Barbecue', name: 'მწვადი', desc: 'ღორის მწვადი', price: '9.99 ₾', popular: false, img: 'ღმწავდი.png' },
+        { id: 'salad', cat: 'Salads', name: 'სალათი', desc: 'სალათების სექცია', price: '', popular: false, img: 'ცეზარი.png',
+        subItems: [
+            { name: 'კიტრი-პომიდვრის სალათი', size: '', price: '10.00 ₾' },
+            { name: 'სალათი ქართული მაიონეზით', size: '', price: '11.00 ₾' },
+            { name: 'კიტრი პომიდვრის სალათი ნიგვზით', size: '', price: '12.00 ₾' },
+            { name: 'მწვანე სალათი', size: '', price: '8.00 ₾' },
+            { name: 'ბერძნული სალათი', size: '', price: '16.00 ₾' },
+            { name: 'სალათი ფრანგული', size: '', price: '16.00 ₾' },
+            { name: 'სალათი ცეზარი ქათმის ფილეთი', size: '', price: '18.00 ₾' },
+            { name: 'სალათი ცეზარი კრევეტებით', size: '', price: '25.00 ₾' },
+            { name: 'სალათი ქათმის აწეწილი', size: '', price: '14.00  ₾' },
+            { name: 'სალათი კრაბის', size: '', price: '8.00  ₾' },
+          ]
+        },
+        { id: 'salad', cat: 'Salads', name: 'დილის საუზმეული', desc: 'დილის საუზმეულის  სექცია', price: '', popular: false, img: 'დსაუზმეული.png',
+        subItems: [
+            { name: 'ომლეტი', size: '', price: '6.00 ₾' },
+            { name: 'ომლეტი ყველით', size: '', price: '8.00 ₾' },
+            { name: 'შემწვარი კვერცხის გლაზოკები', size: '', price: '6.00 ₾' },
+            { name: 'სოსისი ბავარიული', size: '', price: '10.00 ₾' },
+            { name: 'სარდელი', size: '', price: '10.00 ₾' },
+          ]
+        },
+        { id: 'salad', cat: 'Salads', name: 'ცხელი საუზმეული', desc: 'ცხელი საუზმეულის  სექცია', price: '', popular: false, img: 'ცსაუზმეული.png',
+        subItems: [
+            { name: 'კეცზე შემწვარი სულგუნი', size: '', price: '14.00 ₾' },
+            { name: 'სოკო კეცზე ყველით', size: '', price: '15.00 ₾' },
+            { name: 'სოკო კეცზე', size: '', price: '12.00 ₾' },
+            { name: 'მადამ ბოვარი', size: '', price: '15.00 ₾' },
+            { name: 'ხორციანი ბლინი', size: '', price: '15.00 ₾' },
+            { name: 'ჟულიენი', size: '', price: '10.00 ₾' },
+          ]
+        },
+        { id: 'salad', cat: 'Salads', name: 'ცივი კერძები', desc: 'ცივი კერძების სექცია', price: '', popular: false, img: 'ცივიკერძი.png',
+        subItems: [
+            { name: 'ბადრიჯანი ნიგვზით', size: '', price: '12.00 ₾' },
+            { name: 'ფხალი ისპანახის', size: '', price: '12.00 ₾' },
+            { name: 'მწვანე ლობიოს ფხალი', size: '', price: '12.00 ₾' },
+            { name: 'ფხალის ასორტი', size: '', price: '18.00 ₾' },
+            { name: 'ბოსტნეულის ასორტი', size: '', price: '8.00 ₾' },
+            { name: 'მწნილის ასორტი', size: '', price: '8.00 ₾' },
+            { name: 'სულგუნი', size: '', price: '12.00 ₾' },
+            { name: 'იმერული ყველი', size: '', price: '10.00 ₾' },
+            { name: 'შებოლილი სულგუნი', size: '', price: '15.00  ₾' },
+            { name: 'ქართული ყვეილის ასორტი', size: '', price: '18.00  ₾' },
+            { name: 'გებჟალია', size: '', price: '16.00  ₾' },
+            { name: 'საცივის სოუსი ქათმის ფილეთი', size: '', price: '16.00  ₾' },
+            { name: 'ლიმონი', size: '', price: '3.00  ₾' },
+            { name: 'ზეთის ხილი', size: '', price: '6.00  ₾' },
+          ]
+        },
+        { id: 'drinks', cat: 'drinks', name: 'არაყი/ჭაჭა', desc: 'არყების და ჭაჭის სექცია', price: 'იხილეთ ქვემოთ', popular: false, img: 'არაყი.png',
+          subItems: [
+            { name: 'ნემიროვი', size: '0.2-0.5-1.0ლ', price: '10.00 30.00 60.00 ₾' },
+            { name: 'ნემიროვი დელუქსი', size: '0.5-1.0ლ', price: '35.00 70.00 ₾' },
+            { name: 'სტოლიჩნაია', size: '0.5-1.0ლ', price: '40.00 80.00 ₾' },
+            { name: 'ფინლანდია', size: '0.5-1.0ლ', price: '45.00 90.00 ₾' },
+            { name: 'აბსოლუტი', size: '0.5-1.0ლ', price: '49.00 99.00 ₾' },
+            { name: 'გრეი მუსი', size: '0.5-1.0ლ', price: '125.00 250.00 ₾' },
+            { name: 'ბელუგა', size: '0.5-1.0ლ', price: '125.00 250.00 ₾' },
+            { name: 'დანსკა', size: '0.5-1.0ლ', price: '45.00 90.00 ₾' },
+            { name: 'ჭაჭა ვერცხლის', size: '', price: '40.00  ₾' },
+            { name: 'ჭაჭა ოქრო დავარგებული', size: '', price: '45.00  ₾' },
+            { name: 'ულევარა ჭაჭა', size: '', price: '30.00  ₾' },
+          ]
+        },
+        { id: 'drinks', cat: 'drinks', name: 'კონიაკი', desc: 'კონიაკის სექცია', price: 'იხილეთ ქვემოთ', popular: false, img: 'კონიაკი.png',
+          subItems: [
+            { name: 'სარაჯიშვილი 3წ', size: '50 გრ', price: '5.00 ₾' },
+            { name: 'სარაჯიშვილი 5წ', size: '50 გრ', price: '6.00 ₾' },
+            { name: 'პენესი', size: '50 გრ', price: '15.00  ₾' },
+            { name: 'სარაჯიშვილი VS', size: '50 გრ', price: '8.00 ₾' },
+            { name: 'სარაჯიშვილი VSOP', size: '50 გრ', price: '10.00 ₾' },
+            { name: 'სარაჯიშვილი XO', size: '50 გრ', price: '25.00 ₾' },
+            { name: 'პენესი VSOP', size: '50 გრ', price: ' 25.00 ₾' },
+            { name: 'რენი მარტინი VSOP', size: '50 გრ', price: '25.00 ₾' }
+            
+          ]
+        },
+        { id: 'drinks', cat: 'drinks', name: 'ვისკი/რომი/ჯინი', desc: 'ვისკი/რომი/ჯინის სექცია', price: 'იხილეთ ქვემოთ', popular: false, img: 'ვისკი.png',
+          subItems: [
+            { name: 'ჩივას რეგალი', size: '50 გრ', price: '18.00 ₾' },
+            { name: 'სინგლტონი', size: '50 გრ', price: '18.00 ₾' },
+            { name: 'ჯონი ჯეიმსონი', size: '50 გრ', price: '15.00  ₾' },
+            { name: 'ჯეკ დანიელსი', size: '50 გრ', price: '14.00 ₾' },
+            { name: 'აბსენტი', size: '50 გრ', price: '10.00 ₾' },
+            { name: 'ბაქარდი', size: '50 გრ', price: '10.00 ₾' },
+            { name: 'ბაქარდი შავი', size: '50 გრ', price: ' 10.00 ₾' },
+            { name: 'კაპიტანი მორგანი', size: '50 გრ', price: '14.00 ₾' },
+            { name: 'შტროხი', size: '50 გრ', price: '12.00 ₾' },
+            { name: 'მალიბუ', size: '50 გრ', price: '12.00 ₾' },
+            { name: 'ბიფიტერი', size: '50 გრ', price: '10.00 ₾' },
+            { name: 'ჯი&ბი', size: '50 გრ', price: '12.00 ₾' },
+            { name: 'გლენფილდი 12წ', size: '50 გრ', price: '15.00 ₾' },
+            { name: 'პენდრიქსი', size: '50 გრ', price: '12.00 ₾' },
+            { name: 'მანქი შოლდერი', size: '50 გრ', price: '20.00 ₾' },
+            { name: 'გლენმორაჟი', size: '50 გრ', price: '15.00 ₾' },
+          ]
+        },
+         { id: 'drinks', cat: 'drinks', name: 'ტეკილა/ვერმუტი/ლიქიორი', desc: 'ტეკილა/ვერმუტი/ლიქიორის სექცია', price: 'იხილეთ ქვემოთ', popular: false, img: 'ტეკილა.png',
+          subItems: [
+            { name: 'სიერა ბლანკო', size: '50 გრ', price: '12.00 ₾' },
+            { name: 'მარტინი ბიანკო', size: '50 გრ', price: '8.00 ₾' },
+            { name: 'ბეილისი', size: '50 გრ', price: '12.00  ₾' },
+            { name: 'კუანტრო', size: '50 გრ', price: '10.00 ₾' },
+            { name: 'იაგერმეისტერი', size: '50 გრ', price: '12.00 ₾' },
+            { name: 'ტეკილა ოლმეკა ბლანკო', size: '50 გრ', price: '12.00 ₾' },
+            { name: 'სამბუკა', size: '50 გრ', price: ' 8.00 ₾' },
+            { name: 'მარია ბრიზარდი', size: '50 გრ', price: '10.00 ₾' }
+            
+          ]
+        },
+        { id: 'drinks', cat: 'drinks', name: 'კოქტეილი', desc: 'კოქტეილების სექცია', price: 'იხილეთ ქვემოთ', popular: false, img: 'კოქტეილი.png',
+          subItems: [
+            { name: 'ლონგ აილენდი', size: '', price: '19.00 ₾' },
+            { name: 'ლონგ აილენდი რედბულითი', size: '', price: '22.00 ₾' },
+            { name: 'კუბა ლიბრე', size: '', price: '14.00  ₾' },
+            { name: 'რედბულ-ვოდკა', size: '', price: '14.00 ₾' },
+            { name: 'მოჰიტო', size: '', price: '20.00 ₾' },
+            { name: 'მოჰიტო უალკოჰოლო', size: '', price: '12.00 ₾' },
+            { name: 'უალკოჰოლო კოქტეილი', size: '', price: '10.00 ₾' },
+            { name: 'ბ-52', size: '', price: '14.00 ₾' },
+            { name: 'მთვარეზე ბილეთი', size: '', price: '20.00 ₾' },
+            { name: 'სექსი პლიაჟზე', size: '', price: '18.00 ₾' },
+            { name: 'თეთრი რუსული', size: '', price: '15.00 ₾' },
+            { name: 'ტეკილა სანრაის', size: '', price: '15.00 ₾' },
+            { name: 'ცისფერი ლაგუნა', size: '', price: '10.00 ₾' },
+            { name: 'ცისფერი ჰავაი', size: '', price: '16.00 ₾' },
+            { name: 'მარგარიტა', size: '', price: '14.00 ₾' },
+            { name: 'ჰიროსიმა', size: '', price: '14.00 ₾' },
+            { name: 'სუპერ კორონა', size: '', price: '25.00 ₾' },
+            { name: 'წითელი კორონა', size: '', price: '20.00 ₾' },
+          ]
+        },
+        { id: 'desserts', cat: 'desserts', name: 'დესერტები', desc: 'დესერტების სექცია', price: 'იხილეთ ქვემოთ', popular: false, img: 'დესერტი.png',
+          subItems: [
+            { name: 'ხილის ასორტი სეზონური', size: '', price: '25.00 ₾' },
+            { name: 'ნაყინი', size: '', price: '6.00 ₾' },
+            { name: 'ბელგიური ვაფლი', size: '', price: '10.00 ₾' },
+            { name: 'ბრაუნი', size: '', price: '12.00 ₾' },
+            
+          ]
+        },
+        
+        
+      ];
+
+      const menuGrid = document.getElementById('menuGrid');
+      const catButtons = document.querySelectorAll('.cat-btn');
+
+      function renderMenu(filterCat = 'all') {
+        const filtered = filterCat === 'all' ? menuItems : menuItems.filter(item => item.cat === filterCat);
+        menuGrid.innerHTML = filtered.map(item => {
+          if (item.subItems) {
+  const subList = item.subItems.map(sub => `
+    <li class="draft-item">
+      <span class="draft-brand">${sub.name}</span>
+      <span class="draft-size">${sub.size}</span>
+      <span class="draft-price">${sub.price}</span>
+    </li>
+  `).join('');
+
+  return `
+    <div class="menu-card expandable-draft">
+      ${item.popular ? '<span class="popular-badge">🔥 პოპულარული</span>' : ''}
+      <img src="${item.img}" alt="${item.name}" class="menu-img">
+      <div class="draft-header">
+        <div class="menu-name">${item.name}</div>
+        <span class="draft-arrow">▼</span>
+      </div>
+      <div class="menu-desc">${item.desc}</div>
+      <div class="draft-subcontent">
+        <ul class="draft-list">${subList}</ul>
+      </div>
+    </div>
+  `;
+}
+          return `
+            <div class="menu-card" data-item-id="${item.id}">
+              ${item.popular ? '<span class="popular-badge">🔥 პოპულარული</span>' : ''}
+              <img src="${item.img}" alt="${item.name}" class="menu-img" loading="lazy">
+              <div class="menu-name">${item.name}</div>
+              <div class="menu-desc">${item.desc}</div>
+              <div class="menu-price">${item.price}</div>
+            </div>
+          `;
+        }).join('');
+
+        attachDraftBeerToggle();
+      }
+
+      function attachDraftBeerToggle() {
+        const draftCards = document.querySelectorAll('.expandable-draft');
+        // For each expandable card, attach a click handler that closes others
+        draftCards.forEach(card => {
+          // Avoid attaching multiple listeners by removing old ones (simple clone approach)
+          const newCard = card.cloneNode(true);
+          card.parentNode.replaceChild(newCard, card);
+
+          const subContent = newCard.querySelector('.draft-subcontent');
+          let isOpen = false;
+
+          newCard.addEventListener('click', function(e) {
+            // Don't toggle if clicking on a sub-item
+            if (e.target.closest('.draft-item')) return;
+
+            // Close all other expandable cards first
+            document.querySelectorAll('.expandable-draft.open').forEach(other => {
+              if (other !== newCard) {
+                other.classList.remove('open');
+                const otherContent = other.querySelector('.draft-subcontent');
+                if (otherContent) otherContent.style.maxHeight = '0';
+              }
+            });
+
+            // Toggle current
+            isOpen = !isOpen;
+            if (isOpen) {
+              newCard.classList.add('open');
+              subContent.style.maxHeight = subContent.scrollHeight + 'px';
+            } else {
+              newCard.classList.remove('open');
+              subContent.style.maxHeight = '0';
+            }
+          });
+        });
+      }
+
+      renderMenu('all');
+
+      catButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          catButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const cat = btn.dataset.cat;
+          renderMenu(cat);
+        });
+      });
+
+      setTimeout(() => {
+        fadeElements.forEach(el => { 
+          if (el.getBoundingClientRect().top < window.innerHeight*0.8) el.classList.add('visible'); 
+        });
+      }, 150);
+    })();
+  </script>
+</body>
+</html>
